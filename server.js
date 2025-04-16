@@ -1,3 +1,4 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -15,13 +16,13 @@ mongoose.connect(uri)
   .catch((err) => console.error('Erreur de connexion à MongoDB :', err));
 
 app.use('/api/auth', authRoutes);
-app.use('/api/contents', contentRoutes);
+app.use('/api/contents', contentRoutes);   
 
 const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-
+ 
 
 
 
