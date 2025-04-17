@@ -35,6 +35,9 @@ const swaggerOptions = {
         url: 'http://localhost:3000',
         description: 'Serveur local',
       },
+      {
+        url: 'https://projetbeninculture-1.onrender.com'
+      }
     ],
     components: {
       securitySchemes: {
