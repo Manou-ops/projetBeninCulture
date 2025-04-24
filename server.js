@@ -8,7 +8,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
 dotenv.config();
-const app = express();
+const app = express(); 
 
 app.use(cors()); // Activer CORS
 app.use(express.json());

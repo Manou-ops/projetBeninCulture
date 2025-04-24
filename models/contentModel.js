@@ -9,5 +9,5 @@ const contentSchema = new mongoose.Schema({
   genre: { type: String },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
-
+ 
 module.exports = mongoose.model('Content', contentSchema);
