@@ -28,4 +28,55 @@ exports.login = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+}; 
+
+exports.getMe = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, 'secretKey'); // Utilise la même clé que lors du login
+
+    const user = await User.findById(decoded.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(401).json({ message: 'Token invalide' });
+  }
+};
+
+exports.updateMe = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, 'secretKey');
+
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Mise à jour autorisée seulement sur certains champs
+    if (req.body.bio !== undefined) {
+      user.bio = req.body.bio;
+    }
+    if (req.body.socialLinks !== undefined) {
+      user.socialLinks = req.body.socialLinks;
+    }
+
+    await user.save();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
